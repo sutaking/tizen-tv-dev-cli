@@ -1,0 +1,32 @@
+{
+    "name": "tizen-tv-dev-cli",
+    "version": "0.1.0",
+    "description": "command cli from tizen devtools sdk",
+    "main": "index.js",
+    "author": "feng.zhao@samsung.com",
+    "license": "MIT",
+    "keywords": [
+        "TV",
+        "Tizen",
+        "react-native",
+        "react",
+        ".NET Core"
+    ],
+    "engines": {
+        "node": ">= 4.0.0"
+    },
+    "files": [
+        "lib",
+        "resource",
+        "README.md",
+        "tools",
+        "*.js"
+    ],
+    "dependencies": {
+        "archiver": "1.0.1",
+        "node-forge": "^0.7.1",
+        "q": "^1.5.0",
+        "xml2js": "^0.4.17",
+        "xmldom": "^0.1.27"
+    }
+}
