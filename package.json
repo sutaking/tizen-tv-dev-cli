@@ -12,6 +12,14 @@
         "react",
         ".NET Core"
     ],
+    "homepage": "https://github.com/sutaking/tizen-tv-dev-cli",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/sutaking/tizen-tv-dev-cli.git"
+    },
+    "bugs": {
+        "url": "https://github.com/sutaking/tizen-tv-dev-cli/issues"
+    },
     "engines": {
         "node": ">= 4.0.0"
     },
