@@ -1,8 +1,10 @@
 
 var launchTarget = (function() {
-    // Import the module and reference it with the alias vscode
-    //var vscode = require('vscode');
+    
     function getAppName () {
+        if (APP_TYPE === '.wgt') {
+            return 'app';
+        }        
         var dir = __dirname;
         var endIndex = dir.indexOf('/node_modules/tv-dev-cli-sdk/');
         var nameArray = dir.slice(0, endIndex).split('/');
@@ -21,6 +23,10 @@ var launchTarget = (function() {
 
     var http = require('http');
 
+    // default packing type
+	var WGT = '.wgt';
+	var TPK = '.tpk';
+	var APP_TYPE = WGT;
 
     var SDB_NAME = (process.platform == 'win32') ? 'sdb.exe' : 'sdb';
     var SDB_FOLDER = (process.platform == 'win32') ? 'win' : (process.platform == 'linux') ? 'linux' : 'mac';
@@ -220,7 +226,7 @@ var launchTarget = (function() {
         
         var appName = getAppName();//pathArray[pathArray.length - 3];
         
-        outputFullPath = workspacePath + path.sep + appName + '.tpk';
+        outputFullPath = workspacePath + path.sep + appName + APP_TYPE;
         console.log(moduleName+'outputFullPath =' + outputFullPath);
         runAppOnTizen3();
         /*var buildInterval = setInterval(function () {
@@ -265,7 +271,7 @@ var launchTarget = (function() {
         //Push wgt to target device 
         console.log(moduleName+'Trying to push the wgt to target device');
         var localPath = outputFullPath;
-        var remotePath = '/opt/usr/home/owner/apps_rw/tmp/';
+        var remotePath = '/opt/usr/home/';//'/opt/usr/home/owner/apps_rw/tmp/';
         //var remotePath = '/home/owner/share/tmp/sdk_tools/tmp/';
         var pushCommand = SDB_PATH + SPACE + SDB_OPT_SERIAL + SPACE + SDB_COMMAND_PUSH + SPACE + localPath + SPACE + remotePath;
         console.log(moduleName+'pushCommand:' + pushCommand);
@@ -297,7 +303,7 @@ var launchTarget = (function() {
             
             var appName = getAppName();//appNameArray[appNameArray.length - 4];
             appId = appName;
-            var installCommand = SDB_PATH + SPACE + SDB_OPT_SERIAL + SPACE + WAS_COMMAD_INSTALL + SPACE + appId + SPACE + remotePath + appName +'.tpk';
+            var installCommand = SDB_PATH + SPACE + SDB_OPT_SERIAL + SPACE + WAS_COMMAD_INSTALL + SPACE + appId + SPACE + remotePath + appName + APP_TYPE;
 
             // Lanuch App on target device
             var launchCommand = SDB_PATH + SPACE + SDB_OPT_SERIAL + SPACE + WAS_COMMAD_LAUNCH + SPACE + appId;
@@ -311,7 +317,7 @@ var launchTarget = (function() {
     //Install and luanch wgt 
     var installAndLaunch = function(installCommand, launchCommand) {
         console.log(moduleName+'================installAndLaunch');
-        console.log(moduleName+'Start to install tpk to the device');
+        console.log(`${moduleName} Start to install ${APP_TYPE} to the device`);
         console.log(moduleName+'installCommand:' + installCommand);
         innerProcess.exec(installCommand, function (error, stdout, stderr) {
             if (error) {
@@ -389,8 +395,10 @@ var launchTarget = (function() {
 
     return {
         // Handle 'Run on TV' command
-        handleCommand:function(launchTargetIP, TPKPath) {
+        handleCommand:function(launchTargetIP, appPath, type) {
             
+            APP_TYPE = type !== WGT ? TPK : WGT;
+
             // For getting compatible with sdb in Tizen Studio
             var INSTALLED_SDB_INSDK = common.getTizenStudioSdbPath();
             if (fs.existsSync(INSTALLED_SDB_INSDK)) {
@@ -406,7 +414,7 @@ var launchTarget = (function() {
             moduleName = (common.getFuncMode() == common.ENUM_COMMAND_MODE.WEB_INSPECTOR_ON_TV) ? 'WebInspector on TV' : 'Run on TV';
             console.log(moduleName+'==============================' + 'Run on TV start!');
 
-            var dirpath = common.getWorkspacePath()+TPKPath;
+            var dirpath = common.getWorkspacePath()+appPath;
             var targetip = launchTargetIP;//common.getTargetIp();
 
             var promise = prepareInstall(dirpath, targetip);

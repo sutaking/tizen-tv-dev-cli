@@ -21,6 +21,11 @@ var buildPackage = (function() {
 	var PUBLIC_SIGNATURE2 = 'signature2.xml';
 	var MAINFEST_TMP = '.manifest.tmp';
 
+	// default packing type
+	var WGT = '.wgt';
+	var TPK = '.tpk';
+	var APP_TYPE = WGT;
+
 	// Blank
 	var BLANK_SPACE = ' ';
 	// Module name
@@ -51,11 +56,13 @@ var buildPackage = (function() {
 	// Do App signature
 	var prePackage = function(workspacePath, appName) {
 		// Remove exsiting packager or signature1.xml or author-signature.xml 
-		var exsitingPackager = workspacePath + path.sep + appName + '.tpk';
+		var exsitingPackager = workspacePath + path.sep + appName + WGT;
+		var exsitingPackagerMore = workspacePath + path.sep + appName + TPK;
 		var exsitingAuthorSignatureXML = workspacePath + path.sep + AUTOR_SIGNATURE;
 		var exsitingSignature1XML = workspacePath + path.sep + PUBLIC_SIGNATURE;
 		var existingSignature2XML = workspacePath + path.sep + PUBLIC_SIGNATURE2;
 		removeFile(exsitingPackager);
+		removeFile(exsitingPackagerMore);
 		removeFile(exsitingAuthorSignatureXML);
 		removeFile(exsitingSignature1XML);
 		removeFile(existingSignature2XML);
@@ -90,8 +97,8 @@ var buildPackage = (function() {
 	var doPackage = function(workspacePath, appName) {
 
 		// Get Web App .wgt file default output path
-		var outputFullPathTmp = workspacePath + outputPath + appName + '.tpk';
-		var outputFullPath = workspacePath + path.sep + appName + '.tpk';
+		var outputFullPathTmp = workspacePath + outputPath + appName + APP_TYPE;
+		var outputFullPath = workspacePath + path.sep + appName + APP_TYPE;
 		console.log(`${moduleName} : Output put has been set as: ${outputFullPath}`);
 
 		var output = fs.createWriteStream(outputFullPathTmp);
@@ -139,13 +146,13 @@ var buildPackage = (function() {
 
 		// Move .wgt file to App path
 		
-		console.log(`${moduleName} : Move .tpk from tempory path`);
+		console.log(`${moduleName} : Move ${APP_TYPE} from tempory path`);
 
 		// Complete the package build
 		//while (!fs.existsSync(outputFullPath)) {
 			//common.sleepMs(500);
 		//}
-		console.log(`${moduleName} : Generated the .tpk achiver`);
+		console.log(`${moduleName} : Generated the ${APP_TYPE} achiver`);
 		var buildSuccessMsg = 'Build the package Successfully!';
 		console.log(`${moduleName} : ${buildSuccessMsg}`);
 	};
@@ -154,9 +161,10 @@ var buildPackage = (function() {
 	return {
 		// Do 'Build Package' command
 		// Also invoked by launch App functions
-		handleCommand:function(appPath) {
+		handleCommand:function(appPath, type) {
 
-			console.log(`${moduleName} : ==============================Build Package start!`);
+			APP_TYPE = type !== WGT ? TPK : WGT;
+			console.log(`${moduleName} : ----- Build Package start! ---------`);
 
 			//var workspacePath = common.getWorkspacePath();
 			/*if (common.getFuncMode() != common.ENUM_COMMAND_MODE.DEBUGGER && common.getFuncMode() != common.ENUM_COMMAND_MODE.DEBUGGER_TIZEN3_0_EMULATOR) {
@@ -164,7 +172,7 @@ var buildPackage = (function() {
 				workspacePath = common.getWorkspacePath();
 			}*/
 
-			workspacePath = appPath + '/bin/packaging';
+			workspacePath = appPath;// + '/bin/packaging';
 			console.log(`workspacePath: ${workspacePath}`);
 				// Check if there's workspace
 			if (typeof(workspacePath) == 'undefined')
