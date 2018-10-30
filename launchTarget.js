@@ -414,7 +414,7 @@ var launchTarget = (function() {
             moduleName = (common.getFuncMode() == common.ENUM_COMMAND_MODE.WEB_INSPECTOR_ON_TV) ? 'WebInspector on TV' : 'Run on TV';
             console.log(moduleName+'==============================' + 'Run on TV start!');
 
-            var dirpath = common.getWorkspacePath()+appPath;
+            var dirpath = type === TPK ? common.getWorkspacePath()+appPath : appPath;
             var targetip = launchTargetIP;//common.getTargetIp();
 
             var promise = prepareInstall(dirpath, targetip);
