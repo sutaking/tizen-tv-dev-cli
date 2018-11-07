@@ -35,7 +35,8 @@ var launchTarget = (function() {
     var OUTPPUT_PATH = 'output';
 
     var SPAWN_SDB_PATH = EXTENSION_PATH + path.sep + LIB_PATH + path.sep + SDB_FOLDER + path.sep + SDB_NAME;
-    var SDB_PATH = '\"' + SPAWN_SDB_PATH + '\"';
+    //var SDB_PATH = '\"' + SPAWN_SDB_PATH + '\"';
+    var SDB_PATH = path.normalize(`\"${SPAWN_SDB_PATH}\"`);
 
     var workspacePath = '';
     var outputFullPath = '';
@@ -120,7 +121,7 @@ var launchTarget = (function() {
             var devicesCommand = SDB_PATH + SPACE + 'devices';
             var killServerCommand = SDB_PATH + SPACE + SDB_COMMAND_KILL;
             var startServerCommand = SDB_PATH + SPACE + SDB_COMMAND_START;
-
+            
             var chmodCmd = 'chmod +x' + SPACE + SDB_PATH;
             innerProcess.execSync(chmodCmd);
             console.log(moduleName+'Prepare to connect your target');
