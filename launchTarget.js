@@ -1,7 +1,9 @@
+const appInfo = require('./getAppInfo');
 
 var launchTarget = (function() {
     
     function getAppName () {
+        
         if (APP_TYPE === '.wgt') {
             return 'app';
         }        
