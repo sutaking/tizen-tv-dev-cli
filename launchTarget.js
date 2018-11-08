@@ -205,7 +205,7 @@ var launchTarget = (function () {
                         buildPackage.handleCommand();
                     }*/
 
-                    deferred.resolve();
+                    deferred.resolve(dirpath);
                 });
 
             });
@@ -221,13 +221,15 @@ var launchTarget = (function () {
     };
 
 
-    var runApp = function (path) {
+    var runApp = function (appPath) {
         console.log(moduleName + '================runApp');
 
         var pathArray = workspacePath.split(path.sep);
 
         //var appName = getAppName();//pathArray[pathArray.length - 3];
-        getAppInfo(path, APP_TYPE).then(appName => {
+        getAppInfo(appPath, APP_TYPE)
+        .then(appName => {
+            
             outputFullPath = workspacePath + path.sep + appName + APP_TYPE;
             console.log(moduleName + 'outputFullPath =' + outputFullPath);
 
@@ -256,7 +258,7 @@ var launchTarget = (function () {
 
     // Run app on tizen3.0 target
     var runAppOnTizen3 = function (appName) {
-        console.log(moduleName + '================runAppOnTizen 3.0');
+        console.log(moduleName + '~~~~~~~~~~~runAppOnTizen 3.0');
         var configFilePath = workspacePath + path.sep + 'tizen-manifest.xml';
         var appId;// = common.getConfAppID(configFilePath);
 
@@ -415,7 +417,7 @@ var launchTarget = (function () {
             var targetip = launchTargetIP;//common.getTargetIp();
 
             var promise = prepareInstall(dirpath, targetip);
-            promise.then(runApp(dirpath));
+            promise.then(path => runApp(path));
         },
 
 

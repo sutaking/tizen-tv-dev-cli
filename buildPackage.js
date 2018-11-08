@@ -9,6 +9,8 @@ var p12ToPem = require('./p12ToPem');
 // 3rd packager tool
 var archiver = require('archiver');
 
+const getAppInfo = require('./getAppInfo');
+
 var buildPackage = (function () {
 
 	// tizentv extension's path
@@ -186,26 +188,30 @@ var buildPackage = (function () {
 			var appName = pathArray[pathArray.length - 1];
 
 			console.log(`${moduleName} : The app's path is: ${workspacePath}`);
-			console.log(`${moduleName} : The app's name is: ${appName}`);
+			
+			getAppInfo(appPath, APP_TYPE)
+			.then(wgtName => {
+				console.log(`${moduleName} : The app's name is: ${wgtName}`);
 
-			if (appName == '') {
-				var warning_path = 'The input workspace is a invalid, please check if it is a root!';
-				console.log(`${moduleName} : ${warning_path}`);
-				return;
-			}
+				if (wgtName == '') {
+					var warning_path = 'The input workspace is a invalid, please check if it is a root!';
+					console.log(`${moduleName} : ${warning_path}`);
+					return;
+				}
 
-			if (workspacePath && prePackage(workspacePath, appName)) {
+				if (workspacePath && prePackage(workspacePath, wgtName)) {
 
-				// Package
-				doPackage(workspacePath, appName);
-			}
-			else {
+					// Package
+					doPackage(workspacePath, wgtName);
+				}
+				else {
+	
+					// Show error to users
+					var errorMsg = 'Failed to build package!';
+					console.log(`${moduleName} : ${errorMsg}`);
+				}
 
-				// Show error to users
-				var errorMsg = 'Failed to build package!';
-				console.log(`${moduleName} : ${errorMsg}`);
-			}
-
+			});
 		},
 
 		// Handle 'Debug on TV 3.0' command
