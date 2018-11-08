@@ -23,9 +23,9 @@ var PSEUDO_CHARS = ['0', '1', '2', '3', '4', '5', '6', '7',
 var ENUM_FUNCTION_MODE = {
     'COMMAND': 0,                       // Run on TV 2.4
     'DEBUGGER': 1,                      // Debug on TV 3.0
-	'WEB_INSPECTOR_ON_TV': 2,             // Web Inspector Debug on TV
-	'WEB_INSPECTOR_ON_EMULATOR': 3,    // Web Inspector Debug on Emulator
-	'RUNNING_TIZEN2_4_EMULATOR': 4,      // Run on Emulator 2.4
+    'WEB_INSPECTOR_ON_TV': 2,             // Web Inspector Debug on TV
+    'WEB_INSPECTOR_ON_EMULATOR': 3,    // Web Inspector Debug on Emulator
+    'RUNNING_TIZEN2_4_EMULATOR': 4,      // Run on Emulator 2.4
     'DEBUGGER_TIZEN3_0_EMULATOR': 5    // Debug on Emulator 3.0
 };
 exports.ENUM_COMMAND_MODE = ENUM_FUNCTION_MODE;
@@ -63,7 +63,7 @@ var extention_state = ENUM_EXTENSION_STATE.STOPPED;
 function showMsgOnWindow(msgLevel, msg) {
 
     if (functionMode != ENUM_FUNCTION_MODE.DEBUGGER && functionMode != ENUM_FUNCTION_MODE.DEBUGGER_TIZEN3_0_EMULATOR) {
-        
+
         if (msgLevel == ENUM_WINMSG_LEVEL.INFO) {
             console.log(msg);
         }
@@ -87,10 +87,10 @@ exports.showMsgOnWindow = showMsgOnWindow;
 function getWorkspacePath() {
 
     if (functionMode != ENUM_FUNCTION_MODE.DEBUGGER && functionMode != ENUM_FUNCTION_MODE.DEBUGGER_TIZEN3_0_EMULATOR) {
-       var dir = __dirname;
+        var dir = __dirname;
         var endIndex = dir.indexOf('/node_modules/tv-dev-cli-sdk');
         return dir.slice(0, endIndex);
-        
+
     }
     else {
         // TODO: logic when debug
@@ -99,12 +99,12 @@ function getWorkspacePath() {
 exports.getWorkspacePath = getWorkspacePath;
 
 // Get tizen-studio sdb path 
-function getTizenStudioSdbPath(){
+function getTizenStudioSdbPath() {
     if (functionMode != ENUM_FUNCTION_MODE.DEBUGGER && functionMode != ENUM_FUNCTION_MODE.DEBUGGER_TIZEN3_0_EMULATOR) {
         //vscode = require('vscode');
         //var sdbPath = vscode.workspace.getConfiguration('tizentv')['tizenStudioLocation'] + '/tools/' + SDB_NAME;
         return; sdbPath;
-    }else {
+    } else {
         // TODO: logic when debug
     }
 
@@ -173,7 +173,7 @@ function getConfAppID(xmlfile) {
             console.log('applicationID=' + applicationID);
         }
 
-    } else { 
+    } else {
     }
 
     return applicationID;
@@ -206,12 +206,12 @@ function getTargetVersion(command) {
         //console.log('cat result:' + data);
         if (data.indexOf('platform_version:2.4') >= 0) {
             targetversion = '2.4';
-        }else if(data.indexOf('platform_version:3.0') >= 0) {
+        } else if (data.indexOf('platform_version:3.0') >= 0) {
             targetversion = '3.0';
-        }else{
+        } else {
             targetversion = '3.0';
         }
-    } catch (ex) {     
+    } catch (ex) {
         showMsgOnWindow(ENUM_WINMSG_LEVEL.ERROR, 'Get target version Error occured , Please check');
         console.log('-------Error:---------' + ex);
         throw ex;
@@ -270,12 +270,10 @@ function getConfStartHtml(xmlfile) {
         if (data) {
             var pro_pos = data.indexOf('content src');
             var start_pos = data.indexOf('\"', pro_pos);
-            if (start_pos >= 0)
-            {
+            if (start_pos >= 0) {
                 var end_pos = data.indexOf('\"', start_pos + 1);
-                if (end_pos > 0)
-                {
-                    configuredStartHtml = data.substring(start_pos + 1, end_pos);   
+                if (end_pos > 0) {
+                    configuredStartHtml = data.substring(start_pos + 1, end_pos);
                 }
             }
 
@@ -291,37 +289,37 @@ exports.getConfStartHtml = getConfStartHtml;
 
 
 // Insert <name> value into 'config.xml' of App
-function writeConfigXmlNameAttr(nameId, path) {    
+function writeConfigXmlNameAttr(nameId, path) {
 
-	if (fs.existsSync(path)) {
-		var data = fs.readFileSync(path, 'utf-8');
-		var updatedData = '';
-	
-		if (data) {
-			var nameStartPos = data.indexOf('<name>');
-			var nameEndPos = data.indexOf('</name>');
-			var substring1 = data.substring(0, nameStartPos + 6);
-			var substring2 = data.substring(nameEndPos, data.length);
-			updatedData = substring1 + nameId + substring2;
-		}
-		fs.writeFileSync(path, updatedData, 'utf-8');
-	}
+    if (fs.existsSync(path)) {
+        var data = fs.readFileSync(path, 'utf-8');
+        var updatedData = '';
+
+        if (data) {
+            var nameStartPos = data.indexOf('<name>');
+            var nameEndPos = data.indexOf('</name>');
+            var substring1 = data.substring(0, nameStartPos + 6);
+            var substring2 = data.substring(nameEndPos, data.length);
+            updatedData = substring1 + nameId + substring2;
+        }
+        fs.writeFileSync(path, updatedData, 'utf-8');
+    }
 }
 exports.writeConfigXmlNameAttr = writeConfigXmlNameAttr;
 
 
-function createDir(dirPath){
-    if (!fs.existsSync(dirPath)){
-        console.log('Create dir path:'+dirPath);
-        try{        
-            fs.mkdirSync(dirPath);           
+function createDir(dirPath) {
+    if (!fs.existsSync(dirPath)) {
+        console.log('Create dir path:' + dirPath);
+        try {
+            fs.mkdirSync(dirPath);
         } catch (ex) {
             console.log(ex.message);
             throw ex;
         }
-        
-    }else{
-        console.log(dirPath+' is exist');
+
+    } else {
+        console.log(dirPath + ' is exist');
     }
 }
 exports.createDir = createDir;

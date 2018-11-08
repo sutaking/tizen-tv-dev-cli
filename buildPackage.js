@@ -1,15 +1,15 @@
 // Imports
-	var os = require('os');
-	var fs = require('fs');
-	var path = require('path');
-	var innerProcessBuild = require('child_process');
-	//var logger = require('./logger');
-	var signPackage = require('./signPackage');
-	var p12ToPem = require('./p12ToPem');
-	// 3rd packager tool
-	var archiver = require('archiver');
+var os = require('os');
+var fs = require('fs');
+var path = require('path');
+var innerProcessBuild = require('child_process');
+//var logger = require('./logger');
+var signPackage = require('./signPackage');
+var p12ToPem = require('./p12ToPem');
+// 3rd packager tool
+var archiver = require('archiver');
 
-var buildPackage = (function() {
+var buildPackage = (function () {
 
 	// tizentv extension's path
 	var extensionPath = __dirname;
@@ -34,14 +34,14 @@ var buildPackage = (function() {
 
 
 	// Remove exsiting files
-	function removeFile(filepath){
-		if(fs.existsSync(filepath)) {
+	function removeFile(filepath) {
+		if (fs.existsSync(filepath)) {
 
 			console.log(`${moduleName} The existing ${filepath} will be removed firstly`);
 			console.log(`${moduleName} Remove existing ${filepath}`);
 
 			try {
-		
+
 				fs.unlinkSync(filepath);
 			} catch (ex) {
 
@@ -54,7 +54,7 @@ var buildPackage = (function() {
 
 	// Validate the path
 	// Do App signature
-	var prePackage = function(workspacePath, appName) {
+	var prePackage = function (workspacePath, appName) {
 		// Remove exsiting packager or signature1.xml or author-signature.xml 
 		var exsitingPackager = workspacePath + path.sep + appName + WGT;
 		var exsitingPackagerMore = workspacePath + path.sep + appName + TPK;
@@ -94,7 +94,7 @@ var buildPackage = (function() {
 	};
 
 	// Do build package with 'archiver'
-	var doPackage = function(workspacePath, appName) {
+	var doPackage = function (workspacePath, appName) {
 
 		// Get Web App .wgt file default output path
 		var outputFullPathTmp = workspacePath + outputPath + appName + APP_TYPE;
@@ -145,12 +145,12 @@ var buildPackage = (function() {
 		archive.finalize();
 
 		// Move .wgt file to App path
-		
+
 		console.log(`${moduleName} : Move ${APP_TYPE} from tempory path`);
 
 		// Complete the package build
 		//while (!fs.existsSync(outputFullPath)) {
-			//common.sleepMs(500);
+		//common.sleepMs(500);
 		//}
 		console.log(`${moduleName} : Generated the ${APP_TYPE} achiver`);
 		var buildSuccessMsg = 'Build the package Successfully!';
@@ -161,7 +161,7 @@ var buildPackage = (function() {
 	return {
 		// Do 'Build Package' command
 		// Also invoked by launch App functions
-		handleCommand:function(appPath, type) {
+		handleCommand: function (appPath, type) {
 
 			APP_TYPE = type !== WGT ? TPK : WGT;
 			console.log(`${moduleName} : ----- Build Package start! ---------`);
@@ -174,9 +174,8 @@ var buildPackage = (function() {
 
 			workspacePath = appPath;// + '/bin/packaging';
 			console.log(`workspacePath: ${workspacePath}`);
-				// Check if there's workspace
-			if (typeof(workspacePath) == 'undefined')
-			{
+			// Check if there's workspace
+			if (typeof (workspacePath) == 'undefined') {
 				var noWorkspace = 'No project in workspace, please check!';
 				console.log(`${moduleName} : ${noWorkspace}`);
 				return;
@@ -189,8 +188,7 @@ var buildPackage = (function() {
 			console.log(`${moduleName} : The app's path is: ${workspacePath}`);
 			console.log(`${moduleName} : The app's name is: ${appName}`);
 
-			if (appName == '')
-			{
+			if (appName == '') {
 				var warning_path = 'The input workspace is a invalid, please check if it is a root!';
 				console.log(`${moduleName} : ${warning_path}`);
 				return;
@@ -211,13 +209,13 @@ var buildPackage = (function() {
 		},
 
 		// Handle 'Debug on TV 3.0' command
-		prepareBuildForDebug:function(dirpath) {
+		prepareBuildForDebug: function (dirpath) {
 
-			console.log(`${moduleName} : ==============================Build package for debug!`);			
+			console.log(`${moduleName} : ==============================Build package for debug!`);
 
 			workspacePath = dirpath;
 			buildPackage.handleCommand();
-			
+
 		}
 
 	};

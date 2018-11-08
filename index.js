@@ -7,7 +7,7 @@
 var TizenSDK = {
     get buildPackage() { return require('./buildPackage'); },
     get launchTarget() { return require('./launchTarget'); },
-    get appInfo() { return require('./getAppInfo')}
+    get appInfo() { return require('./getAppInfo') }
 };
 
 module.exports = TizenSDK;
