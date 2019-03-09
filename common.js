@@ -85,10 +85,9 @@ exports.showMsgOnWindow = showMsgOnWindow;
 
 // Get the directory path of workspace
 function getWorkspacePath() {
-
     if (functionMode != ENUM_FUNCTION_MODE.DEBUGGER && functionMode != ENUM_FUNCTION_MODE.DEBUGGER_TIZEN3_0_EMULATOR) {
         var dir = __dirname;
-        var endIndex = dir.indexOf('/node_modules/tv-dev-cli-sdk');
+        var endIndex = dir.indexOf('/node_modules/tizen-tv-dev-cli');
         return dir.slice(0, endIndex);
 
     }
@@ -103,7 +102,7 @@ function getTizenStudioSdbPath() {
     if (functionMode != ENUM_FUNCTION_MODE.DEBUGGER && functionMode != ENUM_FUNCTION_MODE.DEBUGGER_TIZEN3_0_EMULATOR) {
         //vscode = require('vscode');
         //var sdbPath = vscode.workspace.getConfiguration('tizentv')['tizenStudioLocation'] + '/tools/' + SDB_NAME;
-        return; sdbPath;
+        //return sdbPath;
     } else {
         // TODO: logic when debug
     }

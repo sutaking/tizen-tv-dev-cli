@@ -18,20 +18,21 @@ const appInfo = (appPath, type) => {
 
     Log(`launch App Type: ${type}`);
 
-            // tizen-dotnet app, tpk type
-            if (type !== '.wgt') {
-                var dir = __dirname;
-                var endIndex = dir.indexOf('/node_modules/tv-dev-cli-sdk/');
-                var nameArray = dir.slice(0, endIndex).split('/');
-                //resolve(nameArray[nameArray.length - 3]);
-                return nameArray[nameArray.length - 3];
-            }
+    // tizen-dotnet app, tpk type
+    if (type !== '.wgt') {
+        var dir = __dirname;
+        var endIndex = dir.indexOf('/node_modules/tizen-tv-dev-cli/');
+        var nameArray = dir.slice(0, endIndex).split('/');
+        return new Promise(resolve => {
+            resolve(nameArray[nameArray.length - 3] + '-1.0.0');
+        })
+    }
 
     return new Promise((resolve, reject) => {
 
-            // get config.xml path, default is root path of tizen app.
-            let xmlPath = path.normalize(`${appPath}/config.xml`);
-            Log(`Tizen App config xml path: ${xmlPath}`);
+        // get config.xml path, default is root path of tizen app.
+        let xmlPath = path.normalize(`${appPath}/config.xml`);
+        Log(`Tizen App config xml path: ${xmlPath}`);
 
         fs.readFile(xmlPath, (err, data) => {
             if (err) reject(err);

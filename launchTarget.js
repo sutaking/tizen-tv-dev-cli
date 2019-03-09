@@ -222,43 +222,25 @@ var launchTarget = (function () {
 
 
     var runApp = function (appPath) {
-        console.log(moduleName + '================runApp');
+        console.log(moduleName + ' ================ runApp');
 
         var pathArray = workspacePath.split(path.sep);
 
         //var appName = getAppName();//pathArray[pathArray.length - 3];
         getAppInfo(appPath, APP_TYPE)
-        .then(appName => {
-            
-            outputFullPath = workspacePath + path.sep + appName + APP_TYPE;
-            console.log(moduleName + 'outputFullPath =' + outputFullPath);
+            .then(appName => {
 
-            runAppOnTizen3(appName);
-        })
+                outputFullPath = workspacePath + path.sep + appName + APP_TYPE;
+                console.log(moduleName + 'outputFullPath =' + outputFullPath);
 
-
-        /*var buildInterval = setInterval(function () {
-            console.log(0000000000);
-            if(fs.existsSync(outputFullPath)){
-                console.log(1111111111111);
-                clearInterval(buildInterval);
-                console.log('targetVersion: '+ targetVersion);          
-                if (targetVersion == '3.0') {
-                    console.log(222222222222);
-                    
-                } else if (targetVersion == '2.4') {
-                    runAppOnTizen2();
-                }else {
-                }
-            }
-            
-        }, 1000);*/
+                runAppOnTizen3(appName);
+            })
 
     };
 
     // Run app on tizen3.0 target
     var runAppOnTizen3 = function (appName) {
-        console.log(moduleName + '~~~~~~~~~~~runAppOnTizen 3.0');
+        console.log(moduleName + '~~~~~~~~~~~ runAppOnTizen 3.0');
         var configFilePath = workspacePath + path.sep + 'tizen-manifest.xml';
         var appId;// = common.getConfAppID(configFilePath);
 
@@ -399,7 +381,8 @@ var launchTarget = (function () {
             APP_TYPE = type !== WGT ? TPK : WGT;
 
             // For getting compatible with sdb in Tizen Studio
-            var INSTALLED_SDB_INSDK = common.getTizenStudioSdbPath();
+            var INSTALLED_SDB_INSDK;
+
             if (fs.existsSync(INSTALLED_SDB_INSDK)) {
                 SPAWN_SDB_PATH = INSTALLED_SDB_INSDK;
                 SDB_PATH = '\"' + INSTALLED_SDB_INSDK + '\"';
@@ -411,10 +394,11 @@ var launchTarget = (function () {
             //moduleName = (common.getFuncMode() == common.ENUM_COMMAND_MODE.WEB_INSPECTOR_ON_TV) ? 'Debug on TV' : 'Run on TV';
 
             moduleName = (common.getFuncMode() == common.ENUM_COMMAND_MODE.WEB_INSPECTOR_ON_TV) ? 'WebInspector on TV' : 'Run on TV';
-            console.log(moduleName + '==============================' + 'Run on TV start!');
+            console.log(moduleName + ' ============================== Run on TV start!');
 
-            var dirpath = type === TPK ? common.getWorkspacePath() + appPath : appPath;
+            var dirpath = APP_TYPE === TPK ? common.getWorkspacePath() + appPath : appPath;
             var targetip = launchTargetIP;//common.getTargetIp();
+
 
             var promise = prepareInstall(dirpath, targetip);
             promise.then(path => runApp(path));
@@ -592,12 +576,12 @@ var launchTarget = (function () {
 
         // Handle 'Debug on TV 3.0' command
         prepareInstallForDebug: function (dirPath, targetIp) {
-            console.log(moduleName + '==============================Debug on TV 3.0 start!');
+            console.log(moduleName + '============================== prepare Install For Launch');
             SPAWN_SDB_PATH = EXTENSION_PATH + path.sep + LIB_PATH + path.sep + SDB_FOLDER + path.sep + SDB_NAME;
             SDB_PATH = '\"' + SPAWN_SDB_PATH + '\"';
             workspacePath = dirPath;
             SDB_OPT_SERIAL = '-s ' + targetIp;
-            targetVersion = '3.0';
+            targetVersion = '5.0';
             TARGET_IP = targetIp;
             runApp();
         },

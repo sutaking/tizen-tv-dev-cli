@@ -204,6 +204,17 @@ tar-stream@^1.5.0:
     readable-stream "^2.0.0"
     xtend "^4.0.0"
 
+tizen-tv-dev-cli@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/tizen-tv-dev-cli/-/tizen-tv-dev-cli-0.1.3.tgz#adaf8e82ea395164a155c491d5829fa763724313"
+  integrity sha512-04HnRQ9F1YtVHvWx6Kl766QtStwmepRMK3ERaRxLcNeorR0Vzdf7bw2XQpUtY9Y4crkvl/ysj2feOnmiYx1O1A==
+  dependencies:
+    archiver "1.0.1"
+    node-forge "^0.7.1"
+    q "^1.5.0"
+    xml2js "^0.4.17"
+    xmldom "^0.1.27"
+
 util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"

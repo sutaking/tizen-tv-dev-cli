@@ -3,7 +3,6 @@ var os = require('os');
 var fs = require('fs');
 var path = require('path');
 var innerProcessBuild = require('child_process');
-//var logger = require('./logger');
 var signPackage = require('./signPackage');
 var p12ToPem = require('./p12ToPem');
 // 3rd packager tool
@@ -188,30 +187,30 @@ var buildPackage = (function () {
 			var appName = pathArray[pathArray.length - 1];
 
 			console.log(`${moduleName} : The app's path is: ${workspacePath}`);
-			
+
 			getAppInfo(appPath, APP_TYPE)
-			.then(wgtName => {
-				console.log(`${moduleName} : The app's name is: ${wgtName}`);
+				.then(wgtName => {
+					console.log(`${moduleName} : The app's name is: ${wgtName}`);
 
-				if (wgtName == '') {
-					var warning_path = 'The input workspace is a invalid, please check if it is a root!';
-					console.log(`${moduleName} : ${warning_path}`);
-					return;
-				}
+					if (wgtName == '') {
+						var warning_path = 'The input workspace is a invalid, please check if it is a root!';
+						console.log(`${moduleName} : ${warning_path}`);
+						return;
+					}
 
-				if (workspacePath && prePackage(workspacePath, wgtName)) {
+					if (workspacePath && prePackage(workspacePath, wgtName)) {
 
-					// Package
-					doPackage(workspacePath, wgtName);
-				}
-				else {
-	
-					// Show error to users
-					var errorMsg = 'Failed to build package!';
-					console.log(`${moduleName} : ${errorMsg}`);
-				}
+						// Package
+						doPackage(workspacePath, wgtName);
+					}
+					else {
 
-			});
+						// Show error to users
+						var errorMsg = 'Failed to build package!';
+						console.log(`${moduleName} : ${errorMsg}`);
+					}
+
+				});
 		},
 
 		// Handle 'Debug on TV 3.0' command
