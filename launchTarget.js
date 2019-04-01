@@ -32,7 +32,7 @@ var launchTarget = (function () {
 
     var SDB_NAME = (process.platform == 'win32') ? 'sdb.exe' : 'sdb';
     var SDB_FOLDER = (process.platform == 'win32') ? 'win' : (process.platform == 'linux') ? 'linux' : 'mac';
-    var LIB_PATH = 'tools/sdb';
+    var LIB_PATH = path.normalize('tools/sdb');
     var EXTENSION_PATH = __dirname;
     var OUTPPUT_PATH = 'output';
 
@@ -123,8 +123,11 @@ var launchTarget = (function () {
             var killServerCommand = SDB_PATH + SPACE + SDB_COMMAND_KILL;
             var startServerCommand = SDB_PATH + SPACE + SDB_COMMAND_START;
 
-            var chmodCmd = 'chmod +x' + SPACE + SDB_PATH;
-            innerProcess.execSync(chmodCmd);
+            if (process.platform !== "win32") {
+                console.log(`Not window platfrom need chmod+x sdb shell`);
+                innerProcess.execSync(`chmod +x ${SDB_PATH}`);
+            }
+            
             console.log(moduleName + 'Prepare to connect your target');
 
             //When first run the extension , restart sdb to avoid sdb version not compatiable issue
