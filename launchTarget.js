@@ -127,7 +127,6 @@ var launchTarget = (function () {
                 console.log(`Not window platfrom need chmod+x sdb shell`);
                 innerProcess.execSync(`chmod +x ${SDB_PATH}`);
             }
-            
             console.log(moduleName + 'Prepare to connect your target');
 
             //When first run the extension , restart sdb to avoid sdb version not compatiable issue
@@ -230,14 +229,34 @@ var launchTarget = (function () {
         var pathArray = workspacePath.split(path.sep);
 
         //var appName = getAppName();//pathArray[pathArray.length - 3];
-        getAppInfo(appPath, APP_TYPE)
+        
+        if (APP_TYPE === TPK) {            
+            fs.readdir(workspacePath, (err, files) => {
+                files.forEach(name => {
+                    if (name.indexOf('tpk')> 0) {
+                        outputFullPath = path.normalize(workspacePath + name);
+                        let appName = name.slice(0, -4);
+                        console.log(moduleName + ' outputFullPath = ' + outputFullPath);
+                        runAppOnTizen3(appName);
+                    }
+                })
+                
+              });
+        } else {
+            getAppInfo(appPath, APP_TYPE)
             .then(appName => {
+                if (appName === 'undefined') {
+                    throw('Can not get app name');
+                }
 
-                outputFullPath = workspacePath + path.sep + appName + APP_TYPE;
-                console.log(moduleName + 'outputFullPath =' + outputFullPath);
+                outputFullPath = path.normalize(workspacePath + appName + APP_TYPE);
+
+                console.log(moduleName + ' outputFullPath = ' + outputFullPath);
 
                 runAppOnTizen3(appName);
             })
+        }
+       
 
     };
 
