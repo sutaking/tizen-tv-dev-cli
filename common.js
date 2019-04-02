@@ -87,7 +87,7 @@ exports.showMsgOnWindow = showMsgOnWindow;
 function getWorkspacePath() {
     if (functionMode != ENUM_FUNCTION_MODE.DEBUGGER && functionMode != ENUM_FUNCTION_MODE.DEBUGGER_TIZEN3_0_EMULATOR) {
         var dir = __dirname;
-        var endIndex = dir.indexOf('/node_modules/tizen-tv-dev-cli');
+        var endIndex = dir.indexOf(path.normalize('/node_modules/tizen-tv-dev-cli'));
         return dir.slice(0, endIndex);
 
     }

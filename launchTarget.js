@@ -233,7 +233,6 @@ var launchTarget = (function () {
                 if (appName === 'undefined') {
                     throw ('Can not get app name');
                 }
-
                 outputFullPath = path.normalize(workspacePath + appName + APP_TYPE);
 
                 console.log(moduleName + ' outputFullPath = ' + outputFullPath);
