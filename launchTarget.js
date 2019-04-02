@@ -228,25 +228,10 @@ var launchTarget = (function () {
 
         var pathArray = workspacePath.split(path.sep);
 
-        //var appName = getAppName();//pathArray[pathArray.length - 3];
-        
-        if (APP_TYPE === TPK) {            
-            fs.readdir(workspacePath, (err, files) => {
-                files.forEach(name => {
-                    if (name.indexOf('tpk')> 0) {
-                        outputFullPath = path.normalize(workspacePath + name);
-                        let appName = name.slice(0, -4);
-                        console.log(moduleName + ' outputFullPath = ' + outputFullPath);
-                        runAppOnTizen3(appName);
-                    }
-                })
-                
-              });
-        } else {
-            getAppInfo(appPath, APP_TYPE)
+        getAppInfo(appPath, APP_TYPE)
             .then(appName => {
                 if (appName === 'undefined') {
-                    throw('Can not get app name');
+                    throw ('Can not get app name');
                 }
 
                 outputFullPath = path.normalize(workspacePath + appName + APP_TYPE);
@@ -255,8 +240,8 @@ var launchTarget = (function () {
 
                 runAppOnTizen3(appName);
             })
-        }
-       
+
+
 
     };
 

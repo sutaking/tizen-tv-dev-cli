@@ -20,7 +20,12 @@ const appInfo = (appPath, type) => {
 
     // tizen-dotnet app, tpk type
     if (type !== '.wgt') {
-        return console.log('Todo .....');
+        var dir = __dirname;
+        var endIndex = dir.indexOf(path.normalize('/node_modules/tizen-tv-dev-cli/'));
+        var nameArray = dir.slice(0, endIndex).split(path.normalize('/'));
+        return new Promise(resolve => {
+            resolve(nameArray[nameArray.length - 3] + '-1.0.0');
+        })
     }
 
     return new Promise((resolve, reject) => {

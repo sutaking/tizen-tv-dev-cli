@@ -1,6 +1,6 @@
 {
     "name": "tizen-tv-dev-cli",
-    "version": "0.1.7",
+    "version": "0.1.8",
     "description": "command cli from tizen devtools sdk",
     "main": "index.js",
     "author": "feng.zhao@samsung.com",
