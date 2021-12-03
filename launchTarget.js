@@ -36,9 +36,9 @@ var launchTarget = (function () {
     var EXTENSION_PATH = __dirname;
     var OUTPPUT_PATH = 'output';
 
-    var SPAWN_SDB_PATH = EXTENSION_PATH + path.sep + LIB_PATH + path.sep + SDB_FOLDER + path.sep + SDB_NAME;
+    var SPAWN_SDB_PATH = path.join(EXTENSION_PATH, LIB_PATH, SDB_FOLDER, SDB_NAME);
     //var SDB_PATH = '\"' + SPAWN_SDB_PATH + '\"';
-    var SDB_PATH = path.normalize(`\"${SPAWN_SDB_PATH}\"`);
+    var SDB_PATH = path.normalize(SPAWN_SDB_PATH);
 
     var workspacePath = '';
     var outputFullPath = '';
@@ -123,7 +123,7 @@ var launchTarget = (function () {
             var killServerCommand = SDB_PATH + SPACE + SDB_COMMAND_KILL;
             var startServerCommand = SDB_PATH + SPACE + SDB_COMMAND_START;
 
-            if (process.platform !== "win32") {
+            if (process.platform == 'win32') {
                 console.log(`Not window platfrom need chmod+x sdb shell`);
                 innerProcess.execSync(`chmod +x ${SDB_PATH}`);
             }
